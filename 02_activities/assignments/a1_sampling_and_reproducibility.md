@@ -10,10 +10,16 @@ Modify the number of repetitions in the simulation to 100 (from the original 100
 
 Alter the code so that it is reproducible. Describe the changes you made to the code and how they affected the reproducibility of the script file. The output does not need to match Whitby’s original blogpost/graphs, it just needs to produce the same output when run multiple times
 
-# Author: YOUR NAME
+# Author: Greg Antono
 
 ```
-Please write your explanation here...
+In the Python script, a dataframe was created via a simulate_event function, representing 1000 individuals who attended events (200 from weddings and 800 from brunches). This list of 1000 individuals is the sampling frame.
+
+The model involves multi-stage sampling. We first observe stratified random sampling in the form of the population being divided into two strata: weddings and brunches. The sample size is the subset of them being infected based on the ATTACK_RATE of 10%. This is a case of simple random sampling, whereby there is no replacement occuring (i.e., randomly infections to a fixed proportion of the sample frame, assuming that everyone has a uniform chance of being infected). Another example of simple random sampling comes from the first step of contact tracing, whereby the model randomly decides which infected people get traced (in the blogpost, the assumption was that contact tracing occured at a rate of 20%). In the next step involving secondary contact tracing, it is no longer probability sampling, as it is based on the prior sample from primary contact tracing: if two or more infections were traced to the same wedding/brunch (i.e., based on primary contact tracing), all individuals associated with that event would be tested. I would classify this as snowball sampling (since the two individuals "snowballed" into the testing of all other participants at the event).
+
+Lastly, the code adds a final layer of sampling with repeated simulation. The generated graph from the original code reproduces the true proportion of wedding infections as shown in the blogpost, but doesn't reproduce the observed proportion of wedding infections. By modifying the code from 1000 to 100 and running it several times, the histograms are different on different runs, as new random samples are generated each time.
+
+In order to make this reproducible, I've added a random seed within the function, which essentially ensures the same set of results (i.e., histogram outputs are the same( on every run, even though each trial obtains a different value of m.
 
 ```
 
